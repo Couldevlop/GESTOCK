@@ -1,1 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/gestionstock?createDatabaseIfNotExist=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+server:
+  port: 8081
 
+flickr:
+  apiKey: f693090e4af3e6a6b02f2f72db4a99ad
+  apiSecret: 43a29f27a19f02fd
+  appKey: 72157720877443090-98c9a80a3be51c97
+  appSecret: 2dbafb66bd9b1cd1
