@@ -15,6 +15,8 @@ spring:
 server:
   port: 8081
 
+
+
 flickr:
   apiKey: f693090e4af3e6a6b02f2f72db4a99ad
   apiSecret: 43a29f27a19f02fd
