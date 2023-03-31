@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model;
 
+import com.openlab.gestiondestock.enums.RoleName;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Roles extends AbstractEntity{
     private Integer id;
 
     @Column(name = "rolename")
-    private String roleName;
+    private RoleName roleName;
 
     @Column(name = "idEntreprise")
     private Integer idEntreprise;

@@ -9,6 +9,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -67,5 +68,30 @@ public class UtilisateurDto {
         utilisateur.setDateDeNaissance(utilisateurDto.getDateDeNaissance());
         utilisateur.setMotDePasse(utilisateurDto.getMotDePasse());
         return  utilisateur;
+    }
+
+    public static List<Utilisateur> fromEntityDTOList(List<UtilisateurDto> listDto){
+          if(listDto == null){
+              return null;
+          }
+          List<Utilisateur> list = new ArrayList<>(listDto.size());
+          for(UtilisateurDto utilisateurDto : listDto){
+              list.add(UtilisateurDto.fromEntityDTO(utilisateurDto));
+          }
+
+          return  list;
+    }
+
+
+    public static  List<UtilisateurDto> fromEntityList(List<Utilisateur> utilisateur){
+        if(utilisateur == null){
+            return null;
+        }
+
+        List<UtilisateurDto> lisDto = new ArrayList<>(utilisateur.size());
+        for(Utilisateur entity : utilisateur){
+            lisDto.add(UtilisateurDto.fromEntity(entity));
+        }
+        return lisDto;
     }
 }

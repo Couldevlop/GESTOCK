@@ -1,6 +1,7 @@
 package com.openlab.gestiondestock.services;
 
 import com.openlab.gestiondestock.model.dto.UtilisateurDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

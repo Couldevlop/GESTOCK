@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model.dto;
 
+import com.openlab.gestiondestock.enums.RoleName;
 import com.openlab.gestiondestock.model.Roles;
 import com.openlab.gestiondestock.model.Utilisateur;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import javax.persistence.ManyToOne;
 public class RolesDto {
     private Integer id;
 
-    private String roleName;
+    private RoleName roleName;
 
     private UtilisateurDto utilisateur;
     private Integer idEntreprise;

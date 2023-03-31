@@ -1,18 +1,18 @@
-package com.openlab.gestiondestock.services.impl;
+package com.openlab.gestiondestock.controller;
 
+import com.openlab.gestiondestock.controller.api.UtilisateursApi;
 import com.openlab.gestiondestock.model.dto.UtilisateurDto;
-import com.openlab.gestiondestock.repository.UtilisateurRepository;
 import com.openlab.gestiondestock.services.UtilisateurService;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Service
-public class UtilisateurServiceImpl implements UtilisateurService {
-    private final UtilisateurRepository utilisateurRepository;
+@RestController
+public class UtilisateurController implements UtilisateursApi {
+    private final UtilisateurService utilisateurService;
 
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
-        this.utilisateurRepository = utilisateurRepository;
+    public UtilisateurController(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
     }
 
     @Override
