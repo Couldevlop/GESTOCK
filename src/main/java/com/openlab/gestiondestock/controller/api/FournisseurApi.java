@@ -11,7 +11,7 @@ import java.util.List;
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 import static com.openlab.gestiondestock.utils.Constants.FOURNISSEUR_END_POINT;
 
-@Tag(name = FOURNISSEUR_END_POINT)
+@Tag(name = "fournisseurs")
 public interface FournisseurApi {
     @PostMapping(value = FOURNISSEUR_END_POINT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<FournisseurDto> save(@RequestBody FournisseurDto fournisseurDto);

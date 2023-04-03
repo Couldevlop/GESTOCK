@@ -1,5 +1,7 @@
 package com.openlab.gestiondestock.services.impl;
 
+import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
+import com.openlab.gestiondestock.model.Utilisateur;
 import com.openlab.gestiondestock.model.dto.UtilisateurDto;
 import com.openlab.gestiondestock.repository.UtilisateurRepository;
 import com.openlab.gestiondestock.services.UtilisateurService;
@@ -17,12 +19,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public UtilisateurDto save(UtilisateurDto utilisateurDto) {
-        return null;
+        Utilisateur user = utilisateurRepository.save(UtilisateurDto.fromEntityDTO(utilisateurDto));
+        return UtilisateurDto.fromEntity(user);
     }
 
     @Override
     public UtilisateurDto findById(Integer id) {
-        return null;
+        return utilisateurRepository.findById(id).map(UtilisateurDto::fromEntity).orElseThrow(()->{
+            throw new EntityNotFoundException("Utilisateur introuvable");
+        });
+
     }
 
     @Override

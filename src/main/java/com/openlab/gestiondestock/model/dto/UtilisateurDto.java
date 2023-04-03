@@ -6,6 +6,7 @@ import com.openlab.gestiondestock.model.Roles;
 import com.openlab.gestiondestock.model.Utilisateur;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Builder
 @Data
+@ToString
 public class UtilisateurDto {
     private Integer id;
 

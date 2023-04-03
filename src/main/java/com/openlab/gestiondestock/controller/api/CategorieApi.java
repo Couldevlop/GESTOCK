@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = APP_ROOT + "/categories")
+@Tag(name = "/categories")
 public interface CategorieApi {
     @Operation(summary = "Enregistrer une categorie", description = "Cette méthode permet d'enregistrer ou de modifier une categorie" )
     @PostMapping(value = APP_ROOT + "/categories", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

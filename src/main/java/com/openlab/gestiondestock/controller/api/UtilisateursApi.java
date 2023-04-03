@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = APP_ROOT + "/utilisateurs")
+@Tag(name = "/utilisateurs")
 public interface UtilisateursApi {
 
     @PostMapping(value = APP_ROOT + "/utilisateurs", produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)

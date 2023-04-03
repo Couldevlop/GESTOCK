@@ -18,12 +18,17 @@ public class Roles extends AbstractEntity{
     private Integer id;
 
     @Column(name = "rolename")
+    @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
-    @Column(name = "idEntreprise")
+   /* @Column(name = "idEntreprise")
     private Integer idEntreprise;
-
+*/
     @ManyToOne
     @JoinColumn(name="idutilisateur")
     private Utilisateur utilisateur;
+
+
+    public Roles (RoleName roleName)
+    {this.roleName = roleName;}
 }

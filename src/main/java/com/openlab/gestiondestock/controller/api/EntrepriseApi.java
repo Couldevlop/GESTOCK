@@ -9,7 +9,7 @@ import java.util.List;
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 import static com.openlab.gestiondestock.utils.Constants.ENTREPRISE_END_POINT;
 
-@Tag(name = ENTREPRISE_END_POINT)
+@Tag(name = "entreprises")
 public interface EntrepriseApi {
     @PostMapping(value = ENTREPRISE_END_POINT)
     EntrepriseDto save(@RequestBody EntrepriseDto entrepriseDto);

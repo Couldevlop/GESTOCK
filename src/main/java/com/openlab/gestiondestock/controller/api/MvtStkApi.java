@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.MVTSTK_END_POINT;
 
-@Tag(name = MVTSTK_END_POINT)
+@Tag(name = "mvstk")
 public interface MvtStkApi {
     @PostMapping(value = MVTSTK_END_POINT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     MvtStkDto save(@RequestBody MvtStkDto  mvtStkDto);

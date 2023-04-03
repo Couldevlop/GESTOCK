@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.*;
 
-@Tag(name = APP_ROOT +"/commande-fournisseurs")
+@Tag(name = "/commande-fournisseurs")
 public interface CommandeFournisseurApi {
 
     @PostMapping(value = COMMANDE_FOURNISSEUR_END_POINT)

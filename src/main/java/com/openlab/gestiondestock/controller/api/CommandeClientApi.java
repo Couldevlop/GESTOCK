@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = APP_ROOT +"/commandes-clients")
+@Tag(name = "/commandes-clients")
 public interface CommandeClientApi {
     @PostMapping(value = APP_ROOT +"commandesclients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CommandeClientDto> save(@RequestBody CommandeClientDto commandeClientDto);

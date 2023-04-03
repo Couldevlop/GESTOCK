@@ -18,6 +18,32 @@ server:
   port: 8081
 
 
+## logging Configuration ##
+# Spécifier le fichier externe ou les messages sont stockés
+logging:
+  file:
+      name: D:/OPENLAB/spring_log_file-api.log
+  # Spécifier la taille maximale du fichier de journalisation
+
+  logback:
+     rollingpolicy:
+         max-file-size: 100KB
+  # spécifier le niveau de Log
+  level:
+      root: INFO
+  # Spécifier la forme du message
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n
+
+
+
+
+
+
+
 
 flickr:
   apiKey: f693090e4af3e6a6b02f2f72db4a99ad
