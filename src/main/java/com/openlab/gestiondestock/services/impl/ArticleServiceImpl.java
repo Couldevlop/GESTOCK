@@ -28,10 +28,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto save(ArticleDto articleDto) {
         List<String> errors = ArticleValidator.validate(articleDto);
-        if(errors.isEmpty()){
+        if(!errors.isEmpty()){
             log.error("l'article est invalide {}", articleDto);
             throw new InvalidEntityException("l'article est invalide", ErrorCodes.ARTICLE_NOT_VALID, errors);
         }
+
         return ArticleDto.fromEntity(articleRepository.save(ArticleDto.fromEntityDTO(articleDto))) ;
     }
 

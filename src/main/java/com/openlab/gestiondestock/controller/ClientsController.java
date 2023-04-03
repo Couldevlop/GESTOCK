@@ -25,6 +25,7 @@ public class ClientsController implements ClientApi {
 
     @Override
     public ResponseEntity<ClientDto> findById(Integer id) {
+
         return ResponseEntity.ok(clientService.findById(id));
     }
 
