@@ -51,12 +51,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto findByCode(String code) {
-        if(code == null){
+    public ClientDto findByEmail(String email) {
+        if(email == null){
             log.error("le code fourni est null");
             return null;
         }
-        return clientRepository.findByCode(code).map(ClientDto::fromEntity).orElseThrow(()->{
+        return clientRepository.findByEmail(email).map(ClientDto::fromEntity).orElseThrow(()->{
             throw new EntityNotFoundException("Aucun client ne correspond au code fourni",ErrorCodes.CLIENT_NOT_FOUND);
         });
     }

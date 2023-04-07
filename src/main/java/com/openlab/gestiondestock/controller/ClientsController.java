@@ -30,9 +30,10 @@ public class ClientsController implements ClientApi {
     }
 
     @Override
-    public ResponseEntity<ClientDto> findByCode(String code) {
-        return ResponseEntity.ok(clientService.findByCode(code));
+    public ResponseEntity<ClientDto> findByEmail(String email) {
+        return ResponseEntity.ok(clientService.findByEmail(email));
     }
+
 
     @Override
     public ResponseEntity<List<ClientDto>> findAll() {

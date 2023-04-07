@@ -1,6 +1,7 @@
 package com.openlab.gestiondestock.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.openlab.gestiondestock.enums.EtatCommande;
 import com.openlab.gestiondestock.model.Client;
 import com.openlab.gestiondestock.model.CommandeClient;
 import com.openlab.gestiondestock.model.LigneCommandeClient;
@@ -25,6 +26,8 @@ public class CommandeClientDto {
 
     private ClientDto client;
 
+    private EtatCommande etatCommande;
+
     private Integer idEntreprise;
 
     private List<LigneCommandeClientDto> ligneCommandeClient;
@@ -38,6 +41,7 @@ public class CommandeClientDto {
                 .id(commandeClient.getId())
                 .idEntreprise(commandeClient.getIdEntreprise())
                 .code(commandeClient.getCode())
+                .etatCommande(commandeClient.getEtatCommande())
                 .dateCommande(commandeClient.getDateCommande())
                 .build();
     }
@@ -49,8 +53,14 @@ public class CommandeClientDto {
         CommandeClient commandeClient = new CommandeClient();
         commandeClient.setId(dto.getId());
         commandeClient.setCode(dto.getCode());
+        commandeClient.setEtatCommande(dto.etatCommande);
         commandeClient.setDateCommande(dto.getDateCommande());
         commandeClient.setClient(ClientDto.fromEntityDTO(dto.getClient()));
         return commandeClient;
+     }
+
+
+     public boolean isCommandeLivree(){
+        return EtatCommande.LIVREE.equals(this.etatCommande);
      }
 }

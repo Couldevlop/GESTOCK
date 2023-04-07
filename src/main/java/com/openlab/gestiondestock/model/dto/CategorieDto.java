@@ -17,6 +17,8 @@ public class CategorieDto {
 
     private String code;
 
+    private Integer idEntreprise;
+
     private String designation;
 
     @JsonIgnore
@@ -29,18 +31,19 @@ public class CategorieDto {
         return CategorieDto.builder()
                 .id(categorie.getId())
                 .code(categorie.getCode())
+                .idEntreprise(categorie.getIdEntreprise())
                 .designation(categorie.getDesignation()).build();
     }
 
     public static Categorie fromEntityDto(CategorieDto categorieDto){
-        if(categorieDto != null){
+        if(categorieDto == null){
             return  null;
         }
         Categorie categorie = new Categorie();
         categorie.setId(categorieDto.getId());
         categorie.setCode(categorieDto.getCode());
+        categorie.setIdEntreprise(categorieDto.getIdEntreprise());
         categorie.setDesignation(categorieDto.getDesignation());
-
         return  categorie;
 
     }

@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model;
 
+import com.openlab.gestiondestock.enums.EtatCommande;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class CommandeClient extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "idclient")
     private Client client;
+
+    @Column(name ="etatcommande" )
+    private EtatCommande etatCommande;
 
     @Column(name = "idEntreprise")
     private Integer idEntreprise;

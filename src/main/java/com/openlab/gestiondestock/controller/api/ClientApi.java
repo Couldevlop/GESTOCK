@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = APP_ROOT +"/clients")
+@Tag(name = "/clients")
 public interface ClientApi {
     @PostMapping(value = APP_ROOT + "/clients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ClientDto> save(@RequestBody ClientDto clientDto);
@@ -18,8 +18,8 @@ public interface ClientApi {
     @GetMapping(value = APP_ROOT + "/clients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ClientDto> findById(@PathVariable Integer id);
 
-    @GetMapping(value = APP_ROOT + "/clients/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ClientDto> findByCode(@PathVariable String code);
+    @GetMapping(value = APP_ROOT + "/clients/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ClientDto> findByEmail(@PathVariable String email);
 
     @GetMapping(value = APP_ROOT + "/clients", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<ClientDto>> findAll();

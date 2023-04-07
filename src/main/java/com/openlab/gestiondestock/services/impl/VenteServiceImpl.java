@@ -115,7 +115,7 @@ public class VenteServiceImpl implements VenteService {
             log.error("le code fourni est null");
             return null;
         }
-        return venteRepsitory.findVentesByCode(code).map(VentesDto::fromEntity).orElseThrow(() ->{
+        return venteRepsitory.findByCode(code).map(VentesDto::fromEntity).orElseThrow(() ->{
             log.error("Aucun objet vente trouvé avec le code " + code + "dans la BD");
             throw new EntityNotFoundException("Aucun objet vente trouvé avec le code " + code + "dans la BD", ErrorCodes.VENTE_NOT_FOUND);
         });

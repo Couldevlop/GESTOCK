@@ -18,7 +18,7 @@ public interface EntrepriseApi {
     EntrepriseDto findById(@PathVariable Integer id);
 
     @GetMapping(value = ENTREPRISE_END_POINT + "/{code}")
-    EntrepriseDto findByCode(@PathVariable String code);
+    EntrepriseDto findByNom(@PathVariable String code);
 
     @GetMapping(value=ENTREPRISE_END_POINT)
     List<EntrepriseDto> findAll();

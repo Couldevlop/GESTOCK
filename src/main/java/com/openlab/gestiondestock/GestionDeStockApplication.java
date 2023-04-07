@@ -25,7 +25,7 @@ public class GestionDeStockApplication {
     public static void main(String[] args) {
         SpringApplication.run(GestionDeStockApplication.class, args);
     }
-    @Bean
+    //@Bean
     CommandLineRunner run (IUtilisateurService iUserService , RolesRepository iRoleRepository , UtilisateurRepository iUserRepository , PasswordEncoder passwordEncoder)
     {return  args ->
     {

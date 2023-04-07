@@ -12,7 +12,8 @@ public class VentesController implements VentesApi {
 
     private final VenteService venteService;
 
-    public VentesController(VenteService venteService) {
+    public VentesController(VenteService venteService)
+    {
         this.venteService = venteService;
     }
 

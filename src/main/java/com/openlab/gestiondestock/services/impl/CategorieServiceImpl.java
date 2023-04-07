@@ -42,7 +42,7 @@ public class CategorieServiceImpl implements CategorieService {
         }
 
         return categorieRepository.findById(id).map(CategorieDto::fromEntity).orElseThrow(()->{
-            throw new EntityNotFoundException("Categoirie avec l'id" + id + "est introuvable", ErrorCodes.CATEGORIE_NOT_FOUND);
+            throw new EntityNotFoundException("Categoirie avec l'id " + id + " est introuvable", ErrorCodes.CATEGORIE_NOT_FOUND);
         });
     }
 
