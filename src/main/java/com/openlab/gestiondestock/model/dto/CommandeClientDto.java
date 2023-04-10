@@ -30,6 +30,7 @@ public class CommandeClientDto {
 
     private Integer idEntreprise;
 
+    @JsonIgnore
     private List<LigneCommandeClientDto> ligneCommandeClient;
 
     public static CommandeClientDto fromEntity(CommandeClient commandeClient){

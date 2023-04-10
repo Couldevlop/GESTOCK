@@ -8,7 +8,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.*;
 
-@Tag(name = "/ventes")
+@Tag(name = "ventes")
 public interface VentesApi {
     @PostMapping(value = VENTE_END_POINT)
     VentesDto save(@RequestBody VentesDto ventesDto);

@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model;
 
+import com.openlab.gestiondestock.enums.EtatCommande;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,9 @@ public class CommandeFournisseur extends AbstractEntity {
 
     @Column(name = "idEntreprise")
     private Integer idEntreprise;
+
+    @Column(name ="etatcommande" )
+    private EtatCommande etatCommande;
 
     @OneToMany(mappedBy = "commandeFournisseur")
     private List<LigneCommandeFournisseur> ligneCommandeFournisseur;

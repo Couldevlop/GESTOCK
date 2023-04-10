@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = APP_ROOT + "/ligneVentes")
+@Tag(name = "ligneVentes")
 public interface LigneVentesApi {
     LigneVenteDto save(LigneVenteDto ligneVenteDto);
     LigneVenteDto findById(Integer id);

@@ -13,7 +13,7 @@ import java.util.List;
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
 
-@Tag(name =  "/articles")
+@Tag(name =  "articles")
 public interface ArticleApi {
     @Operation(summary = "Enregistrer un article", description = "Cette méthode permet d'enregistrer ou de modifier un article" )
     @PostMapping(value = APP_ROOT + "/articles", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

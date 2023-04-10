@@ -23,7 +23,6 @@ public class LigneCommandeClientDto {
     private CommandeClientDto commandeClient;
 
     private BigDecimal quantite;
-
     private  BigDecimal prixUnitaire;
 
     private Integer idEntreprise;

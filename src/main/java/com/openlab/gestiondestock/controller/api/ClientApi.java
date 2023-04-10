@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.openlab.gestiondestock.utils.Constants.APP_ROOT;
 
-@Tag(name = "/clients")
+@Tag(name = "clients")
 public interface ClientApi {
     @PostMapping(value = APP_ROOT + "/clients", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ClientDto> save(@RequestBody ClientDto clientDto);

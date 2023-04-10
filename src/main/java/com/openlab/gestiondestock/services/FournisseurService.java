@@ -1,8 +1,11 @@
 package com.openlab.gestiondestock.services;
 
+import com.openlab.gestiondestock.enums.EtatCommande;
 import com.openlab.gestiondestock.model.dto.FournisseurDto;
+import com.openlab.gestiondestock.model.dto.LigneCommandeFournisseurDto;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface FournisseurService {
@@ -11,4 +14,5 @@ public interface FournisseurService {
     FournisseurDto findByCode(String code);
     List<FournisseurDto> findAll();
     void delete(Integer id);
+
 }
