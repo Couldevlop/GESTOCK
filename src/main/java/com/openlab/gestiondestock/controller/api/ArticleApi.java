@@ -1,6 +1,9 @@
 package com.openlab.gestiondestock.controller.api;
 
 import com.openlab.gestiondestock.model.dto.ArticleDto;
+import com.openlab.gestiondestock.model.dto.LigneCommandeClientDto;
+import com.openlab.gestiondestock.model.dto.LigneCommandeFournisseurDto;
+import com.openlab.gestiondestock.model.dto.LigneVenteDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -56,4 +59,15 @@ public interface ArticleApi {
     @Operation(summary = "Supprimer un article", description = "Cette méthode permet de supprimer un article" )
     @ApiResponse(responseCode = "200", description = "l'article supprimé")
     void delete(@PathVariable Integer id);
+
+
+    @GetMapping(value = APP_ROOT + "/articles/historique/vente/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneVenteDto> findHistoriqueVente(@PathVariable Integer idArticle);
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandeclient/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneCommandeClientDto> findHistoriqueCommandeClient(@PathVariable Integer idArticle);
+    @GetMapping(value = APP_ROOT + "/articles/historique/commandefournisseur/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(@PathVariable Integer idArticle);
+    @GetMapping(value = APP_ROOT + "/articles/categorie/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<ArticleDto> findAllArticleByCategorie(@PathVariable Integer idCategorie);
+
 }

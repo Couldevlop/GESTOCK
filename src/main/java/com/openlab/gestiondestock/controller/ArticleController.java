@@ -2,6 +2,9 @@ package com.openlab.gestiondestock.controller;
 
 import com.openlab.gestiondestock.controller.api.ArticleApi;
 import com.openlab.gestiondestock.model.dto.ArticleDto;
+import com.openlab.gestiondestock.model.dto.LigneCommandeClientDto;
+import com.openlab.gestiondestock.model.dto.LigneCommandeFournisseurDto;
+import com.openlab.gestiondestock.model.dto.LigneVenteDto;
 import com.openlab.gestiondestock.services.ArticleService;
 import com.openlab.gestiondestock.services.impl.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,5 +45,25 @@ public class ArticleController implements ArticleApi {
     @Override
     public void delete(Integer id) {
         articleService.delete(id);
+    }
+
+    @Override
+    public List<LigneVenteDto> findHistoriqueVente(Integer idArticle) {
+        return articleService.findHistoriqueVente(idArticle);
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findHistoriqueCommandeClient(Integer idArticle) {
+        return articleService.findHistoriqueCommandeClient(idArticle);
+    }
+
+    @Override
+    public List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle) {
+        return articleService.findHistoriqueCommandeFournisseur(idArticle);
+    }
+
+    @Override
+    public List<ArticleDto> findAllArticleByCategorie(Integer idCategorie) {
+        return articleService.findAllArticleByCategorie(idCategorie);
     }
 }

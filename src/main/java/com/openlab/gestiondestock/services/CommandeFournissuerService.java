@@ -15,7 +15,7 @@ public interface CommandeFournissuerService {
     List<CommandeFournisseurDto> findAll();
     CommandeFournisseurDto updateEtaCommande(Integer idCommande, EtatCommande etatCommande);
     CommandeFournisseurDto updateQuantiteCommande(Integer idCommande, Integer idLignCmd, BigDecimal quantite);
-    CommandeFournisseurDto updateClient(Integer idCommande, Integer idClient);
+    CommandeFournisseurDto updateFournisseur(Integer idCommande, Integer idFour);
     CommandeFournisseurDto updateArticle(Integer idCommande, Integer idLigneCmd, Integer idArticle);
     CommandeFournisseurDto deleteArticle(Integer idCommande, Integer idLigneCmd);
     List<LigneCommandeFournisseurDto>findAllLigneCommandeFournisseurBycommandeFournisseurId(Integer idCommande);

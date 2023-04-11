@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface VenteRepsitory extends JpaRepository<Ventes, Integer> {
+public interface VenteRepository extends JpaRepository<Ventes, Integer> {
     Optional<Ventes> findByCode(String code);
 }

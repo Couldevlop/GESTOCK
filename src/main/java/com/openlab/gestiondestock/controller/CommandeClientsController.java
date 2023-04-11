@@ -32,7 +32,7 @@ public class CommandeClientsController implements CommandeClientApi {
     }
 
     @Override
-    public ResponseEntity<CommandeClientDto> updateEtaClient(Integer idCommande, EtatCommande etatCommande) {
+    public ResponseEntity<CommandeClientDto> updateEtaCommande(Integer idCommande, EtatCommande etatCommande) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(commandeClientService.updateEtaCommande(idCommande,etatCommande));
     }
 

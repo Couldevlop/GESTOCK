@@ -10,7 +10,7 @@ import com.openlab.gestiondestock.model.dto.LigneVenteDto;
 import com.openlab.gestiondestock.model.dto.VentesDto;
 import com.openlab.gestiondestock.repository.ArticleRepository;
 import com.openlab.gestiondestock.repository.LigneVenteRepository;
-import com.openlab.gestiondestock.repository.VenteRepsitory;
+import com.openlab.gestiondestock.repository.VenteRepository;
 import com.openlab.gestiondestock.services.VenteService;
 import com.openlab.gestiondestock.validator.VenteValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VenteServiceImpl implements VenteService {
 
-    private final VenteRepsitory venteRepsitory;
+    private final VenteRepository venteRepository;
     private final ArticleRepository articleRepository;
     private final LigneVenteRepository ligneVenteRepository;
 
-    public VenteServiceImpl(VenteRepsitory venteRepsitory,
+    public VenteServiceImpl(VenteRepository venteRepository,
                             ArticleRepository articleRepository,
                             LigneVenteRepository ligneVenteRepository) {
-        this.venteRepsitory = venteRepsitory;
+        this.venteRepository = venteRepository;
         this.articleRepository = articleRepository;
         this.ligneVenteRepository = ligneVenteRepository;
     }
@@ -72,7 +72,7 @@ public class VenteServiceImpl implements VenteService {
         * sauvegarder la vente dans la ligne de vente
         */
 
-        Ventes v = venteRepsitory.save(VentesDto.fromEntityDTO(ventesDto));
+        Ventes v = venteRepository.save(VentesDto.fromEntityDTO(ventesDto));
         ventesDto.getLigneVente().forEach(ligneVenteDto -> {
             LigneVente ligneVente = LigneVenteDto.fromEntity(ligneVenteDto);
             ligneVente.setVentes(v);
@@ -98,7 +98,7 @@ public class VenteServiceImpl implements VenteService {
         *  NON: ramener de la base de données l'objet vente
          */
 
-      return   venteRepsitory.findById(id).map(
+      return   venteRepository.findById(id).map(
                 VentesDto::fromEntity).orElseThrow(()->{
              log.error("Aucun objet vente trouvé avec l'id " + id + "dans la BD");
             throw new EntityNotFoundException("Aucun objet vente trouvé avec l'id " + id + "dans la BD", ErrorCodes.VENTE_NOT_FOUND);
@@ -115,7 +115,7 @@ public class VenteServiceImpl implements VenteService {
             log.error("le code fourni est null");
             return null;
         }
-        return venteRepsitory.findByCode(code).map(VentesDto::fromEntity).orElseThrow(() ->{
+        return venteRepository.findByCode(code).map(VentesDto::fromEntity).orElseThrow(() ->{
             log.error("Aucun objet vente trouvé avec le code " + code + "dans la BD");
             throw new EntityNotFoundException("Aucun objet vente trouvé avec le code " + code + "dans la BD", ErrorCodes.VENTE_NOT_FOUND);
         });
@@ -123,7 +123,7 @@ public class VenteServiceImpl implements VenteService {
 
     @Override
     public List<VentesDto> findAll() {
-        return venteRepsitory.findAll().stream().map(VentesDto::fromEntity).collect(Collectors.toList());
+        return venteRepository.findAll().stream().map(VentesDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -135,7 +135,7 @@ public class VenteServiceImpl implements VenteService {
             log.error("l'id fourni est null");
             return;
         }
-        venteRepsitory.deleteById(id);
+        venteRepository.deleteById(id);
 
 
     }

@@ -28,7 +28,7 @@ public interface CommandeClientApi {
                                                             @PathVariable("quantite") BigDecimal quantite);
 
     @PatchMapping(value =APP_ROOT + "/commandesclients/etat/{id}/{etatcommande}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CommandeClientDto> updateEtaClient(@PathVariable("id") Integer idCommande, @PathVariable EtatCommande etatCommande);
+    ResponseEntity<CommandeClientDto> updateEtaCommande(@PathVariable("id") Integer idCommande, @PathVariable EtatCommande etatCommande);
     @PatchMapping(value =APP_ROOT + "/commandesclients/{id}/{idClient}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CommandeClientDto> updateClient(@PathVariable("id") Integer idCommande, @PathVariable Integer idClient);
     @PatchMapping(value =APP_ROOT + "/commandesclients/{idComande}/{idLigneCmd}/{idArticle}", produces = MediaType.APPLICATION_JSON_VALUE)
