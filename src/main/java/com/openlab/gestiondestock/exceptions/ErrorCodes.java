@@ -20,7 +20,9 @@ public enum ErrorCodes {
     LIGNE_COMMANDE_FOURNISSEUR_NOT_FOUND(4004),
     VENTE_NOT_VALID(7000),
     UPDATE_PHOTO_EXCEPTION(4004),
+    UNKNOW_CONTEXT(4000),
     VENTE_NOT_FOUND(7000);
+
 
     private int code;
 
