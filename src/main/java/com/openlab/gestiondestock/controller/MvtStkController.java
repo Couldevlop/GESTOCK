@@ -6,6 +6,7 @@ import com.openlab.gestiondestock.model.dto.MvtStkDto;
 import com.openlab.gestiondestock.services.MvtStkService;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -17,28 +18,34 @@ public class MvtStkController implements MvtStkApi {
         this.mvtStkService = mvtStkService;
     }
 
+
     @Override
-    public MvtStkDto save(MvtStkDto mvtStkDto) {
-        return mvtStkService.save(mvtStkDto);
+    public BigDecimal sotckReelArticle(Integer idArticle) {
+        return mvtStkService.sotckReelArticle(idArticle);
     }
 
     @Override
-    public MvtStkDto findById(Integer id) {
-        return mvtStkService.findById(id);
+    public List<MvtStkDto> mvtStkArticle(Integer idArticle) {
+        return mvtStkService.mvtStkArticle(idArticle);
     }
 
     @Override
-    public MvtStkDto findByCode(String code) {
-        return mvtStkService.findByCode(code);
+    public MvtStkDto entreeStock(MvtStkDto dto) {
+        return mvtStkService.entreeStock(dto);
     }
 
     @Override
-    public List<MvtStkDto> findAll() {
-        return mvtStkService.findAll();
+    public MvtStkDto sortieStock(MvtStkDto dto) {
+        return mvtStkService.sortieStock(dto);
     }
 
     @Override
-    public void delete(Integer id) {
-     mvtStkService.delete(id);
+    public MvtStkDto correctionStockPos(MvtStkDto dto) {
+        return mvtStkService.correctionStockPos(dto);
+    }
+
+    @Override
+    public MvtStkDto correctionStockNeg(MvtStkDto dto) {
+        return mvtStkService.correctionStockNeg(dto);
     }
 }

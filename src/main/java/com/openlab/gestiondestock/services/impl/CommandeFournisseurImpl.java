@@ -1,6 +1,8 @@
 package com.openlab.gestiondestock.services.impl;
 
 import com.openlab.gestiondestock.enums.EtatCommande;
+import com.openlab.gestiondestock.enums.SourceMvtStk;
+import com.openlab.gestiondestock.enums.TypeMvtStk;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
@@ -9,6 +11,7 @@ import com.openlab.gestiondestock.model.*;
 import com.openlab.gestiondestock.model.dto.*;
 import com.openlab.gestiondestock.repository.*;
 import com.openlab.gestiondestock.services.CommandeFournissuerService;
+import com.openlab.gestiondestock.services.MvtStkService;
 import com.openlab.gestiondestock.validator.ArticleValidator;
 import com.openlab.gestiondestock.validator.CommandeFournisseurValidator;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +37,8 @@ public class CommandeFournisseurImpl implements CommandeFournissuerService {
     private final FournisseurRepository fournisseurRepository;
 
     private final ArticleRepository articleRepository;
+
+    private final MvtStkService mvtStkService;
     @Override
     public CommandeFournisseurDto save(CommandeFournisseurDto dto) {
 
@@ -127,7 +133,14 @@ public class CommandeFournisseurImpl implements CommandeFournissuerService {
                     ErrorCodes.COMMANDE_FOURNISSEUR_NOT_MOFIFIABLE);
         }
         commandeFournisseurDto.setEtatCommande(etatCommande);
-        return CommandeFournisseurDto.fromEntity(commandeFournisseurRepository.save(CommandeFournisseurDto.fromEntityDTO(commandeFournisseurDto)));
+        CommandeFournisseur savedCmdFournisseur = commandeFournisseurRepository.save(CommandeFournisseurDto.fromEntityDTO(commandeFournisseurDto));
+
+        //--- Mise à jour du stock si la commande est livrée
+        if(commandeFournisseurDto.isCommandeLivree()){
+            updateMvtStk(idCommande);
+        }
+
+        return CommandeFournisseurDto.fromEntity(savedCmdFournisseur);
     }
 
     @Override
@@ -282,6 +295,24 @@ public class CommandeFournisseurImpl implements CommandeFournissuerService {
         }else {
             return ligneCommandeFournisseur;
         }
+
+    }
+
+    //-- Méthode appeller pour chaque mise à jour de stock(commande-clien, commende fournisseur ou vente
+    private void updateMvtStk(Integer idCommande){
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseurId(idCommande);
+        ligneCommandeFournisseurs.forEach(lig ->{
+            MvtStkDto mvtStkDto = MvtStkDto.builder()
+                    .quantite(lig.getQuantite())
+                    .idEntreprise(lig.getIdEntreprise())
+                    .sourceMvtStk(SourceMvtStk.COMMANDE_FOURNISSEUR)
+                    .id(lig.getId())
+                    .typeMvtStk(TypeMvtStk.ENTREE)
+                    .article(ArticleDto.fromEntity(lig.getArticle()))
+                    .dateMvt(Instant.now()).build();
+            mvtStkService.entreeStock(mvtStkDto);
+        });
+
 
     }
 }

@@ -4,12 +4,15 @@ package com.openlab.gestiondestock.services;
 import com.openlab.gestiondestock.model.dto.MvtStkDto;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface MvtStkService {
-    MvtStkDto save(MvtStkDto mvtStkDto);
-     MvtStkDto findById(Integer id);
-    MvtStkDto findByCode(String code);
-    List<MvtStkDto> findAll();
-    void delete(Integer id);
+  BigDecimal sotckReelArticle(Integer idArticle);
+  List<MvtStkDto> mvtStkArticle(Integer idArticle);
+  MvtStkDto entreeStock(MvtStkDto dto);
+  MvtStkDto sortieStock(MvtStkDto dto);
+  MvtStkDto correctionStockPos(MvtStkDto dto);
+  MvtStkDto correctionStockNeg(MvtStkDto dto);
+
 }

@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model;
 
+import com.openlab.gestiondestock.enums.SourceMvtStk;
 import com.openlab.gestiondestock.enums.TypeMvtStk;
 import lombok.*;
 
@@ -28,6 +29,9 @@ public class MvtStk extends AbstractEntity{
 
     @Column(name = "idEntreprise")
     private Integer idEntreprise;
+
+    @Column(name="sourcemvtstk")
+    private SourceMvtStk sourceMvtStk;
 
     @Column(name = "typemvtstk")
     private TypeMvtStk typeMvtStk;

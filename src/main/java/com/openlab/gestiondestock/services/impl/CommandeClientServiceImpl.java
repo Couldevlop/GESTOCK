@@ -1,6 +1,8 @@
 package com.openlab.gestiondestock.services.impl;
 
 import com.openlab.gestiondestock.enums.EtatCommande;
+import com.openlab.gestiondestock.enums.SourceMvtStk;
+import com.openlab.gestiondestock.enums.TypeMvtStk;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
@@ -9,15 +11,13 @@ import com.openlab.gestiondestock.model.Article;
 import com.openlab.gestiondestock.model.Client;
 import com.openlab.gestiondestock.model.CommandeClient;
 import com.openlab.gestiondestock.model.LigneCommandeClient;
-import com.openlab.gestiondestock.model.dto.ArticleDto;
-import com.openlab.gestiondestock.model.dto.ClientDto;
-import com.openlab.gestiondestock.model.dto.CommandeClientDto;
-import com.openlab.gestiondestock.model.dto.LigneCommandeClientDto;
+import com.openlab.gestiondestock.model.dto.*;
 import com.openlab.gestiondestock.repository.ArticleRepository;
 import com.openlab.gestiondestock.repository.ClientRepository;
 import com.openlab.gestiondestock.repository.CommandeClientRepository;
 import com.openlab.gestiondestock.repository.LigneCommandeClientRepository;
 import com.openlab.gestiondestock.services.CommandeClientService;
+import com.openlab.gestiondestock.services.MvtStkService;
 import com.openlab.gestiondestock.validator.ArticleValidator;
 import com.openlab.gestiondestock.validator.CommandeClientValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,14 +39,16 @@ public class CommandeClientServiceImpl implements CommandeClientService {
     private final ClientRepository clientRepository;
     private  final ArticleRepository articleRepository;
     private final LigneCommandeClientRepository ligneCommandeClientRepository;
+    private final MvtStkService mvtStkService;
 
     public CommandeClientServiceImpl(CommandeClientRepository commandeClientRepository,
                                      ClientRepository clientRepository,
-                                     ArticleRepository articleRepository, LigneCommandeClientRepository ligneCommandeClientRepository) {
+                                     ArticleRepository articleRepository, LigneCommandeClientRepository ligneCommandeClientRepository, MvtStkService mvtStkService) {
         this.commandeClientRepository = commandeClientRepository;
         this.clientRepository = clientRepository;
         this.articleRepository = articleRepository;
         this.ligneCommandeClientRepository = ligneCommandeClientRepository;
+        this.mvtStkService = mvtStkService;
     }
 
 
@@ -166,8 +168,15 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         if(commandeClientDto.getId() != null && commandeClientDto.isCommandeLivree()){
             throw  new InvalidOperationException("Impossible de modifier la commande lorsqu'elle est validée", ErrorCodes.COMMANDE_CLIENT_NOT_MOFIFIABLE);
         }
-        commandeClientDto.setEtatCommande(etatCommande);
-        return CommandeClientDto.fromEntity(commandeClientRepository.save(CommandeClientDto.fromEntityDTO(commandeClientDto)));
+       commandeClientDto.setEtatCommande(etatCommande);
+        CommandeClient savedCmdClient =commandeClientRepository.save(CommandeClientDto.fromEntityDTO(commandeClientDto));
+
+        //--- Mise à jour du stock si la commande est livrée
+        if(commandeClientDto.isCommandeLivree()){
+            updateMvtStk(idCommande);
+        }
+
+        return CommandeClientDto.fromEntity(savedCmdClient);
     }
 
     @Override
@@ -286,6 +295,24 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         }else {
             return ligneCommandeClient;
         }
+
+    }
+
+    //-- Méthode appeller pour chaque mise à jour de stock(commande-clien, commende fournisseur ou vente
+    private void updateMvtStk(Integer idCommande){
+        List<LigneCommandeClient> ligneCommandeClients = ligneCommandeClientRepository.findAllByCommandeClientId(idCommande);
+        ligneCommandeClients.forEach(lig ->{
+            MvtStkDto mvtStkDto = MvtStkDto.builder()
+                    .quantite(lig.getQuantite())
+                    .idEntreprise(lig.getIdEntreprise())
+                    .sourceMvtStk(SourceMvtStk.COMMANDE_CLIENT)
+                    .id(lig.getId())
+                    .typeMvtStk(TypeMvtStk.SORTIE)
+                    .article(ArticleDto.fromEntity(lig.getArticle()))
+                    .dateMvt(Instant.now()).build();
+            mvtStkService.sortieStock(mvtStkDto);
+        });
+
 
     }
 }

@@ -1,5 +1,6 @@
 package com.openlab.gestiondestock.model.dto;
 
+import com.openlab.gestiondestock.enums.SourceMvtStk;
 import com.openlab.gestiondestock.enums.TypeMvtStk;
 import com.openlab.gestiondestock.model.AbstractEntity;
 import com.openlab.gestiondestock.model.MvtStk;
@@ -22,6 +23,8 @@ public class MvtStkDto extends AbstractEntity {
 
     private Integer idEntreprise;
 
+    private SourceMvtStk sourceMvtStk;
+
     private TypeMvtStk typeMvtStk;
 
     public static MvtStkDto fromEntity(MvtStk mvtStk){
@@ -33,6 +36,7 @@ public class MvtStkDto extends AbstractEntity {
                 .dateMvt(mvtStk.getDateMvt())
                 .typeMvtStk(mvtStk.getTypeMvtStk())
                 .idEntreprise(mvtStk.getIdEntreprise())
+                .sourceMvtStk(mvtStk.getSourceMvtStk())
                 .quantite(mvtStk.getQuantite())
                 .id(mvtStk.getId()).build();
     }
@@ -46,6 +50,7 @@ public class MvtStkDto extends AbstractEntity {
         mvtStk.setArticle(ArticleDto.fromEntityDTO(mvtStkDto.article));
         mvtStk.setIdEntreprise(mvtStkDto.getIdEntreprise());
         mvtStk.setId(mvtStkDto.getId());
+        mvtStk.setSourceMvtStk(mvtStkDto.getSourceMvtStk());
         mvtStk.setQuantite(mvtStkDto.getQuantite());
         return mvtStk;
     }

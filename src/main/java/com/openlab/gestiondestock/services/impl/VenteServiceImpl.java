@@ -1,21 +1,27 @@
 package com.openlab.gestiondestock.services.impl;
 
+import com.openlab.gestiondestock.enums.SourceMvtStk;
+import com.openlab.gestiondestock.enums.TypeMvtStk;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
 import com.openlab.gestiondestock.model.Article;
 import com.openlab.gestiondestock.model.LigneVente;
 import com.openlab.gestiondestock.model.Ventes;
+import com.openlab.gestiondestock.model.dto.ArticleDto;
 import com.openlab.gestiondestock.model.dto.LigneVenteDto;
+import com.openlab.gestiondestock.model.dto.MvtStkDto;
 import com.openlab.gestiondestock.model.dto.VentesDto;
 import com.openlab.gestiondestock.repository.ArticleRepository;
 import com.openlab.gestiondestock.repository.LigneVenteRepository;
 import com.openlab.gestiondestock.repository.VenteRepository;
+import com.openlab.gestiondestock.services.MvtStkService;
 import com.openlab.gestiondestock.services.VenteService;
 import com.openlab.gestiondestock.validator.VenteValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +34,15 @@ public class VenteServiceImpl implements VenteService {
     private final VenteRepository venteRepository;
     private final ArticleRepository articleRepository;
     private final LigneVenteRepository ligneVenteRepository;
+    private final MvtStkService mvtStkService;
 
     public VenteServiceImpl(VenteRepository venteRepository,
                             ArticleRepository articleRepository,
-                            LigneVenteRepository ligneVenteRepository) {
+                            LigneVenteRepository ligneVenteRepository, MvtStkService mvtStkService) {
         this.venteRepository = venteRepository;
         this.articleRepository = articleRepository;
         this.ligneVenteRepository = ligneVenteRepository;
+        this.mvtStkService = mvtStkService;
     }
 
     @Override
@@ -77,6 +85,9 @@ public class VenteServiceImpl implements VenteService {
             LigneVente ligneVente = LigneVenteDto.fromEntity(ligneVenteDto);
             ligneVente.setVentes(v);
             ligneVenteRepository.save(ligneVente);
+
+            //--- faire la mise à jour du stock après la vente
+            updateMvtStk(ligneVente);
         });
 
         return VentesDto.fromEntity(v);
@@ -136,7 +147,19 @@ public class VenteServiceImpl implements VenteService {
             return;
         }
         venteRepository.deleteById(id);
-
-
     }
+
+    //-- Méthode appeller pour chaque mise à jour de stock(commande-clien, commende fournisseur ou vente
+    private void updateMvtStk(LigneVente lig){
+            MvtStkDto mvtStkDto = MvtStkDto.builder()
+                    .quantite(lig.getQuantite())
+                    .idEntreprise(lig.getIdEntreprise())
+                    .sourceMvtStk(SourceMvtStk.VENTE)
+                    .id(lig.getId())
+                    .typeMvtStk(TypeMvtStk.SORTIE)
+                    .article(ArticleDto.fromEntity(lig.getArticle()))
+                    .dateMvt(Instant.now()).build();
+            mvtStkService.sortieStock(mvtStkDto);
+    }
+
 }

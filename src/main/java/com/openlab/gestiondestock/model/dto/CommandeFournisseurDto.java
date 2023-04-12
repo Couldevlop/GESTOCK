@@ -64,4 +64,6 @@ public class CommandeFournisseurDto {
     public boolean isCommandeLivree(){
         return EtatCommande.LIVREE.equals(this.etatCommande);
     }
+
+
 }
