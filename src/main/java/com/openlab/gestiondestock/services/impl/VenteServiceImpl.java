@@ -5,6 +5,7 @@ import com.openlab.gestiondestock.enums.TypeMvtStk;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
+import com.openlab.gestiondestock.exceptions.InvalidOperationException;
 import com.openlab.gestiondestock.model.Article;
 import com.openlab.gestiondestock.model.LigneVente;
 import com.openlab.gestiondestock.model.Ventes;
@@ -145,6 +146,11 @@ public class VenteServiceImpl implements VenteService {
         if(id == null){
             log.error("l'id fourni est null");
             return;
+        }
+        List<LigneVente> ligneVentes = ligneVenteRepository.findAllByVentesId(id);
+        if(!ligneVentes.isEmpty()){
+            log.warn("Impossible de supprimer une vente");
+            throw new InvalidOperationException("Impossible de supprimer une vente associée à une ligne de vente", ErrorCodes.VENTE_ALREADY_USED);
         }
         venteRepository.deleteById(id);
     }

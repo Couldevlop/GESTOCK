@@ -29,6 +29,9 @@ public class CommandeFournisseur extends AbstractEntity {
     @Column(name = "idEntreprise")
     private Integer idEntreprise;
 
+    @Embedded
+    private Adresse adresse;
+
     @Column(name ="etatcommande" )
     private EtatCommande etatCommande;
 

@@ -9,4 +9,5 @@ public interface LigneCommandeFournisseurRepository  extends JpaRepository<Ligne
 
     List<LigneCommandeFournisseur> findAllByCommandeFournisseurId(Integer id);
     List<LigneCommandeFournisseur> findAllByArticleId(Integer id);
+
 }

@@ -28,6 +28,8 @@ public class CommandeFournisseurDto {
 
     private Integer idEntreprise;
 
+    private AdresseDto adresse;
+
     private EtatCommande etatCommande;
 
     @JsonIgnore
@@ -42,6 +44,7 @@ public class CommandeFournisseurDto {
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
                 .etatCommande(commandeFournisseur.getEtatCommande())
+                .adresse(AdresseDto.fromEntity(commandeFournisseur.getAdresse()))
                 .fournisseur(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
                 .idEntreprise(commandeFournisseur.getIdEntreprise()).build();
     }
@@ -58,6 +61,7 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setIdEntreprise(dto.getIdEntreprise());
         commandeFournisseur.setEtatCommande(dto.getEtatCommande());
         commandeFournisseur.setId(dto.getId());
+        commandeFournisseur.setAdresse(AdresseDto.fromEntityDTO(dto.adresse));
         return commandeFournisseur;
     }
 

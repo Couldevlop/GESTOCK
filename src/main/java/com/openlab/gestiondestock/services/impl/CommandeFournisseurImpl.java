@@ -231,6 +231,10 @@ public class CommandeFournisseurImpl implements CommandeFournissuerService {
 
     @Override
     public void delete(Integer id) {
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseurId(id);
+        if(!ligneCommandeFournisseurs.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer une commande client qui est déjà utilisé", ErrorCodes.COMMAND_FOURNISSEUR_ALREADY_IN_USED);
+        }
       commandeFournisseurRepository.deleteById(id);
     }
 

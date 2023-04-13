@@ -52,6 +52,7 @@ public class UserValidator {
             }
 
         }
+        errors.addAll(AdresseValidator.validate(utilisateurDto.getAdresse()));
         return errors;
     }
 }

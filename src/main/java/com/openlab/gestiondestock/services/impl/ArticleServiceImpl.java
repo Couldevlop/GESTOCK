@@ -3,7 +3,11 @@ package com.openlab.gestiondestock.services.impl;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
+import com.openlab.gestiondestock.exceptions.InvalidOperationException;
 import com.openlab.gestiondestock.model.Article;
+import com.openlab.gestiondestock.model.LigneCommandeClient;
+import com.openlab.gestiondestock.model.LigneCommandeFournisseur;
+import com.openlab.gestiondestock.model.LigneVente;
 import com.openlab.gestiondestock.model.dto.ArticleDto;
 import com.openlab.gestiondestock.model.dto.LigneCommandeClientDto;
 import com.openlab.gestiondestock.model.dto.LigneCommandeFournisseurDto;
@@ -26,14 +30,20 @@ public class ArticleServiceImpl implements ArticleService {
     private final LigneVenteRepository ligneVenteRepository;
     private final LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
     private final LigneCommandeClientRepository ligneCommandeClientRepository;
+    private final CommandeClientRepository commandeClientRepository;
+    private final CommandeFournisseurRepository commandeFournisseurRepository;
+    private final VenteRepository venteRepository;
 
     public ArticleServiceImpl(ArticleRepository articleRepository, VenteRepository venteRepository,
                               LigneVenteRepository ligneVenteRepository, LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository,
-                              LigneCommandeClientRepository ligneCommandeClientRepository) {
+                              LigneCommandeClientRepository ligneCommandeClientRepository, CommandeClientRepository commandeClientRepository, CommandeFournisseurRepository commandeFournisseurRepository, VenteRepository venteRepository1) {
         this.articleRepository = articleRepository;
         this.ligneVenteRepository = ligneVenteRepository;
         this.ligneCommandeFournisseurRepository = ligneCommandeFournisseurRepository;
         this.ligneCommandeClientRepository = ligneCommandeClientRepository;
+        this.commandeClientRepository = commandeClientRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
+        this.venteRepository = venteRepository1;
     }
 
     @Override
@@ -81,6 +91,18 @@ public class ArticleServiceImpl implements ArticleService {
         if(id == null){
             log.error("Aucun article avec l'id" + id + "est introuvable dans la BDD");
             throw new EntityNotFoundException("article introuvable", ErrorCodes.ARTICLE_NOT_FOUND);
+        }
+        List<LigneCommandeClient> ligneCommandeClients = commandeClientRepository.findByArticleId(id);
+        if(!ligneCommandeClients.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer un article déjà utilisé dans la commande fournisseur ", ErrorCodes.ARTICLE_ALREADY_IN_USED);
+        }
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = commandeFournisseurRepository.findByArticleId(id);
+        if(!ligneCommandeFournisseurs.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer un article déjà utilisé dans la commande fournisseur ", ErrorCodes.ARTICLE_ALREADY_IN_USED);
+        }
+        List<LigneVente> ligneVentes = venteRepository.findAllByArticle(id);
+        if(!ligneVentes.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer un article déjà utilisé dans la vente ", ErrorCodes.ARTICLE_ALREADY_IN_USED);
         }
         articleRepository.deleteById(id);
     }

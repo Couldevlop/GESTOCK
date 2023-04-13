@@ -26,6 +26,8 @@ public class CommandeClientDto {
 
     private ClientDto client;
 
+    private AdresseDto adresse;
+
     private EtatCommande etatCommande;
 
     private Integer idEntreprise;

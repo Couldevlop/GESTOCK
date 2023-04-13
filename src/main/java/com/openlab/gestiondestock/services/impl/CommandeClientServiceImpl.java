@@ -7,15 +7,9 @@ import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
 import com.openlab.gestiondestock.exceptions.InvalidOperationException;
-import com.openlab.gestiondestock.model.Article;
-import com.openlab.gestiondestock.model.Client;
-import com.openlab.gestiondestock.model.CommandeClient;
-import com.openlab.gestiondestock.model.LigneCommandeClient;
+import com.openlab.gestiondestock.model.*;
 import com.openlab.gestiondestock.model.dto.*;
-import com.openlab.gestiondestock.repository.ArticleRepository;
-import com.openlab.gestiondestock.repository.ClientRepository;
-import com.openlab.gestiondestock.repository.CommandeClientRepository;
-import com.openlab.gestiondestock.repository.LigneCommandeClientRepository;
+import com.openlab.gestiondestock.repository.*;
 import com.openlab.gestiondestock.services.CommandeClientService;
 import com.openlab.gestiondestock.services.MvtStkService;
 import com.openlab.gestiondestock.validator.ArticleValidator;
@@ -36,18 +30,22 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CommandeClientServiceImpl implements CommandeClientService {
     private final CommandeClientRepository commandeClientRepository;
+    private final CommandeFournisseurRepository commandeFournisseurRepository;
     private final ClientRepository clientRepository;
     private  final ArticleRepository articleRepository;
     private final LigneCommandeClientRepository ligneCommandeClientRepository;
+    private final VenteRepository venteRepository;
     private final MvtStkService mvtStkService;
 
     public CommandeClientServiceImpl(CommandeClientRepository commandeClientRepository,
-                                     ClientRepository clientRepository,
-                                     ArticleRepository articleRepository, LigneCommandeClientRepository ligneCommandeClientRepository, MvtStkService mvtStkService) {
+                                     CommandeFournisseurRepository commandeFournisseurRepository, ClientRepository clientRepository,
+                                     ArticleRepository articleRepository, LigneCommandeClientRepository ligneCommandeClientRepository, VenteRepository venteRepository, MvtStkService mvtStkService) {
         this.commandeClientRepository = commandeClientRepository;
+        this.commandeFournisseurRepository = commandeFournisseurRepository;
         this.clientRepository = clientRepository;
         this.articleRepository = articleRepository;
         this.ligneCommandeClientRepository = ligneCommandeClientRepository;
+        this.venteRepository = venteRepository;
         this.mvtStkService = mvtStkService;
     }
 
@@ -151,6 +149,11 @@ public class CommandeClientServiceImpl implements CommandeClientService {
             log.error("l'id est null");
             return;
         }
+        List<LigneCommandeClient> ligneCommandeClients = commandeClientRepository.findByAllCommandClienId(id);
+        if(!ligneCommandeClients.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer une commande client qui est déjà utilisé", ErrorCodes.COMMAND_CLIENT_ALREADY_IN_USED);
+        }
+
       commandeClientRepository.deleteById(id);
     }
 

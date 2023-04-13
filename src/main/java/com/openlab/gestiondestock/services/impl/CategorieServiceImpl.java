@@ -3,7 +3,10 @@ package com.openlab.gestiondestock.services.impl;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
+import com.openlab.gestiondestock.exceptions.InvalidOperationException;
+import com.openlab.gestiondestock.model.Article;
 import com.openlab.gestiondestock.model.dto.CategorieDto;
+import com.openlab.gestiondestock.repository.ArticleRepository;
 import com.openlab.gestiondestock.repository.CategorieRepository;
 import com.openlab.gestiondestock.services.CategorieService;
 import com.openlab.gestiondestock.validator.CategorieValidator;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class CategorieServiceImpl implements CategorieService {
 
     private final CategorieRepository categorieRepository;
+    private final ArticleRepository articleRepository;
     @Override
     public CategorieDto save(CategorieDto categorieDto) {
         /*
@@ -68,6 +72,10 @@ public class CategorieServiceImpl implements CategorieService {
         if(id == null){
             log.error("l'id est null");
             return;
+        }
+        List<Article>articles = articleRepository.findAllByCategorieId(id);
+        if(!articles.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer un article déjà utilisé dans la vente ", ErrorCodes.CATEGORIE_ALREADY_IN_USED);
         }
         categorieRepository.deleteById(id);
     }

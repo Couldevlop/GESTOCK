@@ -29,6 +29,9 @@ public class CommandeClientValidator {
         if(commandeClientDto == null || StringUtils.hasLength(commandeClientDto.getCode())){
             errors.add("Veillez renseigner le champs 'code' de la commande du client");
         }
+        if(commandeClientDto == null || StringUtils.hasLength(commandeClientDto.getEtatCommande().toString())){
+            errors.add("Veillez renseigner le champs l'etat de la commande du client");
+        }
         if(commandeClientDto.getClient() == null){
 
             errors.add("Veillez renseigner le nom de l'utilisateur");
@@ -52,22 +55,8 @@ public class CommandeClientValidator {
             }
             if(commandeClientDto.getClient().getAdresse() == null){
                 errors.add("Veillez renseigner une adresse");
-            }else {
-                if(StringUtils.hasLength(commandeClientDto.getClient().getAdresse().getAdresse1())){
-                    errors.add("le champs 'adresse1'  est obigatoire");
-                }
-                if(StringUtils.hasLength(commandeClientDto.getClient().getAdresse().getPays())){
-                    errors.add("le champs 'pays'  est obigatoire");
-                }
-                if(StringUtils.hasLength(commandeClientDto.getClient().getAdresse().getVille())){
-                    errors.add("le champs 'ville'  est obigatoire");
-                }
-                if(StringUtils.hasLength(commandeClientDto.getClient().getAdresse().getCodePostale())){
-                    errors.add("le champs 'code postale'  est obigatoire");
-                }
             }
         }
-
         return errors;
     }
 }

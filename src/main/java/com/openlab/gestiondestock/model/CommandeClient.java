@@ -28,6 +28,9 @@ public class CommandeClient extends AbstractEntity{
     @Column(name ="etatcommande" )
     private EtatCommande etatCommande;
 
+    @Embedded
+    private Adresse adresse;
+
     @Column(name = "idEntreprise")
     private Integer idEntreprise;
 

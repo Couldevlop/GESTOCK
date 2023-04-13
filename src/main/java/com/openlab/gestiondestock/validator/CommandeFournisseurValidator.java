@@ -24,6 +24,10 @@ public class CommandeFournisseurValidator {
         if(commandeFournisseurDto == null || StringUtils.hasLength(commandeFournisseurDto.getCode())){
             errors.add("Veillez renseigner le champs 'code' de la commande du fournisseur");
         }
+
+        if(commandeFournisseurDto == null || StringUtils.hasLength(commandeFournisseurDto.getEtatCommande().toString())){
+            errors.add("Veillez renseigner le champs l'etat de la commande du fournisseur");
+        }
         if(commandeFournisseurDto.getFournisseur() == null){
 
             errors.add("Veillez renseigner le nom du fournisseur");
@@ -62,7 +66,6 @@ public class CommandeFournisseurValidator {
                 }
             }
         }
-
         return errors;
     }
 }

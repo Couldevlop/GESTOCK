@@ -3,11 +3,13 @@ package com.openlab.gestiondestock.services.impl;
 import com.openlab.gestiondestock.exceptions.EntityNotFoundException;
 import com.openlab.gestiondestock.exceptions.ErrorCodes;
 import com.openlab.gestiondestock.exceptions.InvalidEntityException;
+import com.openlab.gestiondestock.exceptions.InvalidOperationException;
+import com.openlab.gestiondestock.model.CommandeClient;
 import com.openlab.gestiondestock.model.dto.ClientDto;
 import com.openlab.gestiondestock.repository.ClientRepository;
+import com.openlab.gestiondestock.repository.CommandeClientRepository;
 import com.openlab.gestiondestock.services.ClientService;
 import com.openlab.gestiondestock.validator.ClientValidator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,11 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final CommandeClientRepository commandeClientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, CommandeClientRepository commandeClientRepository) {
         this.clientRepository = clientRepository;
+        this.commandeClientRepository = commandeClientRepository;
     }
 
     @Override
@@ -68,6 +72,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void delete(Integer id) {
+        if(id == null){
+            log.error("l'id est null");
+            return;
+        }
+        List<CommandeClient> commandeClients = commandeClientRepository.findByAllClientId(id);
+        if(!commandeClients.isEmpty()){
+            throw new InvalidOperationException("Impossible de supprimer le client car il est associé à des commandes", ErrorCodes.CLIENT_ALREADY_IN_USED);
+        }
       clientRepository.deleteById(id);
     }
 }

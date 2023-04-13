@@ -14,10 +14,19 @@ public class MvtStkValidator {
         if(mvtStkDto == null){
             errors.add("Veillez renseigner la quantité du mouvement de stock");
             errors.add("Veillez renseigner le type de mouvement de stock");
+            errors.add("Veillez renseigner la quantité du mouvement");
+            errors.add("Veillez renseigner la date du mouvement");
+            errors.add("Veillez renseigner le type de mouvement");
             return errors;
         }
         if(mvtStkDto.getQuantite() == null){
             errors.add("Veillez renseigner la quantité du mouvement");
+        }
+        if(mvtStkDto.getTypeMvtStk().name() == null){
+            errors.add("Veillez renseigner le type de mouvement");
+        }
+        if(mvtStkDto.getDateMvt() == null){
+            errors.add("Veillez renseigner la date du mouvement");
         }
 
         if(StringUtils.hasLength(mvtStkDto.getTypeMvtStk().name())){
